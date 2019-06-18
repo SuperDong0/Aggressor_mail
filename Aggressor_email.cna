@@ -1,4 +1,4 @@
-import email.lei.Main from: cna_mail.jar;
+import email.lei.Main from: Aggressor_mail.jar;
 on beacon_initial {
 
 foreach $entry (beacons()) {
